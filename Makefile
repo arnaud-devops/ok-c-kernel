@@ -1,5 +1,6 @@
-IMG_KERNEL = kfs_1.iso
 KERNEL = kfs_1
+KERNEL_IMG = kfs_1.iso
+KERNEL_DIR = kernel
 
 CC = gcc
 LD = ld
@@ -7,7 +8,7 @@ ASM = nasm
 
 CCFLAGS = -m32
 LDFLAGS = -m elf_i386 -T
-ASMFLAGS = -f elf
+ASMFLAGS = -f elf32
 
 CC_SRC = kmain.c
 LD_SRC = link.ld
@@ -17,16 +18,16 @@ GRUB_CFG = grub.cfg
 CC_OBJ = $(CC_SRC:.c=.o)
 ASM_OBJ = $(ASM_SRC:.s=.o)
 
-all: $(IMG_KERNEL) $(CC_SRC) $(LD_SRC) $(ASM_SRC) $(GRUB_CFG)
+all: $(KERNEL_IMG) $(CC_SRC) $(LD_SRC) $(ASM_SRC) $(GRUB_CFG) $(KERNEL_DIR)
 
-$(IMG_KERNEL): $(KERNEL)
-	mkdir -p kernel/boot/grub
-	cp -r $< kernel/boot
-	cp -r $(GRUB_CFG) kernel/boot/grub
-	grub-mkrescue -o $@ $<
+$(KERNEL_IMG): $(KERNEL)
+	mkdir -p $(KERNEL_DIR)/boot/grub
+	cp -r $< $(KERNEL_DIR)/boot
+	cp -r $(GRUB_CFG) $(KERNEL_DIR)/boot/grub
+	grub-mkrescue -o $@ $(KERNEL_DIR)
 
-$(KERNEL): $(CC_OBJ) $(ASM_OBJ)
-	$(LD) $(LDFLAGS) $(LD_SRC) -o $@ $<
+$(KERNEL): $(ASM_OBJ) $(CC_OBJ)
+	$(LD) $(LDFLAGS) $(LD_SRC) -o $@ $^
 
 .c.o:
 	$(CC) $(CCFLAGS) -c $< -o $@
@@ -36,7 +37,11 @@ $(KERNEL): $(CC_OBJ) $(ASM_OBJ)
 
 clean:
 	rm -rf *.o
-	rm -rf kernel
+	rm -rf $(KERNEL_DIR)
+	rm -rf $(KERNEL_IMG)
+	rm -rf $(KERNEL)
 
-run: $(IMG_KERNEL)
-	qemu-system-i386 -cdrom $(IMG_KERNEL)
+run: $(KERNEL_IMG)
+	qemu-system-i386 -cdrom $(KERNEL_IMG)
+
+re: clean all
