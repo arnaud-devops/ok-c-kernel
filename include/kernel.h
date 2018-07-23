@@ -1,18 +1,21 @@
 #ifndef KERNEL_H
-# define KERNEL_H
+#define KERNEL_H
+
+#include <stdint.h>
+
 
 /*
  * Video Memory begin
  */
 
-# define VID_MEMORY 0x0b8000
+#define VID_MEMORY		0x0b8000
 
 /*
  * Max Columns and Lines
  */
 
-# define MAX_COLUMNS 80
-# define MAX_LINES 25
+#define MAX_COLUMNS		80
+#define MAX_LINES		25
 
 /*
  * Colors
@@ -34,5 +37,7 @@
 #define LIGHT_MAGENTA		0x0d
 #define LIGHT_BROWN		0x0e
 #define WHITE			0x0f
+
+char getchar();
 
 #endif

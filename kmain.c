@@ -24,8 +24,9 @@ static void ft_write_on_screen(const char *str, char *vidptr)
 	}
 }
 
-static void ft_clear_screen(char *vidptr)
+static void ft_clear_screen()
 {
+	volatile char *video = (volatile char*)VID_MEMORY;
 	unsigned int i = 0;
 
 	/*
@@ -34,9 +35,26 @@ static void ft_clear_screen(char *vidptr)
 	 */
 	while (i < MAX_COLUMNS * MAX_LINES * 2)
 	{
-		vidptr[i] = ' '; /* Blank character on all screen */
-		vidptr[i+1] = LIGHT_GREY; /* Each character on two bytes - character + colors */
+		*video++ = ' '; /* Blank character on all screen */
+		*video++ = LIGHT_GREY; /* Each character on two bytes - character + colors */
 		i = i + 2;
+	}
+}
+
+static void kputchar(char c) {
+	static volatile char *video = (volatile char*)VID_MEMORY;
+
+	*video++ = c;
+	*video++ = LIGHT_GREEN;
+}
+
+static void basic_kbd() {
+	char c;
+
+	while (1) {
+		c = getchar();
+		if (c != 0)
+			kputchar(c);
 	}
 }
 
@@ -44,9 +62,16 @@ void kmain(void)
 {
 	const char *str = "Hello World!"; /* Message which will be displayed on Kernel screen */
 	char *vidptr = (char*)VID_MEMORY; /* Videos memory begin here */
+	char c;
 
-	ft_clear_screen(vidptr);
+	ft_clear_screen();
 	ft_write_on_screen(str, vidptr);
-
+	while (1) {
+		c = getchar();
+		if (c != 0) {
+			ft_clear_screen();
+			basic_kbd();
+		}
+	}
 	return ;
 }

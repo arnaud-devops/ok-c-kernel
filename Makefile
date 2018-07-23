@@ -6,11 +6,13 @@ CC = gcc
 LD = ld
 ASM = nasm
 
-CCFLAGS = -m32
+CCFLAGS = -O0 -m32
 LDFLAGS = -m elf_i386 -T
 ASMFLAGS = -f elf32
 
-CC_SRC = kmain.c
+CC_SRC =	kmain.c \
+		keyboard.c
+
 LD_SRC = link.ld
 ASM_SRC = kernel.s
 GRUB_CFG = grub.cfg
