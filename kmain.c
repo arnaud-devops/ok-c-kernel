@@ -26,7 +26,7 @@ static void ft_write_on_screen(const char *str, char *vidptr)
 
 static void ft_clear_screen()
 {
-	volatile char *video = (volatile char*)VID_MEMORY;
+	char *video = (char*)VID_MEMORY;
 	unsigned int i = 0;
 
 	/*
@@ -42,10 +42,10 @@ static void ft_clear_screen()
 }
 
 static void kputchar(char c) {
-	static volatile char *video = (volatile char*)VID_MEMORY;
+	static char *video = (char*)VID_MEMORY;
 
 	*video++ = c;
-	*video++ = LIGHT_GREEN;
+	*video++ = CYAN;
 }
 
 static void basic_kbd() {

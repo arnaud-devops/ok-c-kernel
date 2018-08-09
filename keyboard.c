@@ -50,6 +50,11 @@ static inline void outb(uint16_t port, uint8_t val)
 			: "a"(val), "Nd"(port) );
 }
 
+/*
+ * =a : constraint means that al/ax/eax will be copied to ret as output 
+ * Nd : N = 8 bytes, Register d (dx)
+ */
+
 static inline uint8_t inb(uint16_t port)
 {
 	uint8_t ret;
