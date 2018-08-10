@@ -38,7 +38,10 @@ $(KERNEL): $(ASM_OBJ) $(CC_OBJ)
 	$(ASM) $(ASMFLAGS) -o $@ $<
 
 clean:
-	rm -rf *.o
+	rm -rf $(CC_OBJ)
+	rm -rf $(ASM_OBJ)
+
+fclean:
 	rm -rf $(KERNEL_DIR)
 	rm -rf $(KERNEL_IMG)
 	rm -rf $(KERNEL)
