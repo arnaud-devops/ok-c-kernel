@@ -43,11 +43,47 @@ static void ft_clear_screen()
 
 static void kputchar(char c) {
 	static char *video = (char*)VID_MEMORY;
+	static char color = WHITE;
 
 	if (video == (char*)(VID_MEMORY + MAX_COLUMNS * MAX_LINES * 2))
 		video = (char*)VID_MEMORY;
-	*video++ = c;
-	*video++ = CYAN;
+	switch ((unsigned char)c)
+	{
+		case 200:
+			color = BLUE;
+			break;
+		case 201:
+			color = GREEN;
+			break;
+		case 202:
+			color = CYAN;
+			break;
+		case 203:
+			color = RED;
+			break;
+		case 204:
+			color = MAGENTA;
+			break;
+		case 205:
+			color = BROWN;
+			break;
+		case 206:
+			color = LIGHT_BLUE;
+			break;
+		case 207:
+			color = LIGHT_GREEN;
+			break;
+		case 208:
+			color = LIGHT_RED;
+			break;
+		case 209:
+			color = WHITE;
+			break;
+		default:
+			*video++ = c;
+			*video++ = color;
+			break;
+	}
 }
 
 static void basic_kbd() {

@@ -19,7 +19,7 @@ unsigned char kbdus[128] = {
 	0, // left alt
 	' ', // space
 	0, // caps-lock
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // f1->f12
+	200, 201, 202, 203, 204, 205, 206, 207, 208, 209, // f1->f10
 	0, // numlock
 	0, // scroll lock
 	0, // home
