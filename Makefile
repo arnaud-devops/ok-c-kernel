@@ -6,7 +6,7 @@ CC = gcc
 LD = ld
 ASM = nasm
 
-CCFLAGS = -O0 -m32
+CCFLAGS = -O0 -m32 -nostdlib -fno-stack-protector -Wall -Wextra -Werror
 LDFLAGS = -m elf_i386 -T
 ASMFLAGS = -f elf32
 
