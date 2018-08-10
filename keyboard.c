@@ -5,10 +5,10 @@ unsigned char kbdus[128] = {
 	0, // esc
 	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 	'-', '=',
-	'\b', // backspace
-	'\t', // tab
+	0, // backspace
+	0, // tab
 	'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
-	'\n', // enter
+	0, // enter
 	0, // left ctrl
 	'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
 	0, // left shift
