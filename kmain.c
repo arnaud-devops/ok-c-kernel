@@ -44,7 +44,7 @@ static void ft_clear_screen()
 static void kputchar(char c) {
 	static char *video = (char*)VID_MEMORY;
 
-	if (*video == (VID_MEMORY + MAX_COLUMNS * MAX_LINES * 2))
+	if (video == (char*)(VID_MEMORY + MAX_COLUMNS * MAX_LINES * 2))
 		video = (char*)VID_MEMORY;
 	*video++ = c;
 	*video++ = CYAN;
