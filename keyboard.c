@@ -96,15 +96,14 @@ static inline uint8_t inb(uint16_t port)
 	return ret;
 }
 
-static char get_scancode()
+static unsigned char get_scancode()
 {
-	char c = 0;
+	unsigned char c = 0;
 	outb(0x60, 0x0);
 	do {
 		if(inb(0x60) != c){
 			c = inb(0x60);
-			if(c > 0)
-				return c;
+			return c;
 		}
 	} while(1);
 }
