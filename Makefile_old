@@ -20,7 +20,7 @@ GRUB_CFG = grub.cfg
 CC_OBJ = $(CC_SRC:.c=.o)
 ASM_OBJ = $(ASM_SRC:.s=.o)
 
-all: $(KERNEL_IMG)
+all: $(KERNEL_IMG) $(CC_SRC) $(LD_SRC) $(ASM_SRC) $(GRUB_CFG) $(KERNEL_DIR)
 
 $(KERNEL_IMG): $(KERNEL)
 	mkdir -p $(KERNEL_DIR)/boot/grub
