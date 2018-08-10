@@ -43,6 +43,23 @@ unsigned char kbdus[128] = {
 	0, // undefined
 };
 
+
+/*
+ *
+ * outb: output byte in AL (here it's val and 0x0 in get_scancode())
+ *       to I/O port address in DX (here it's port and 0x60 in get_scancode())
+ * 
+ * a: constraint mean use the A register (in this case AL)
+ * Nd: constraint mean:
+ * 	N: force 8-bit integer constant
+ * 	d: use the D register (in this case DX)
+ *
+ * x86 OUT (Output to Port) :
+ * Copies the value from the second operand (source operand)
+ * to the I/O port specified with the destination operand (first operand).
+ *
+ */
+
 static inline void outb(uint16_t port, uint8_t val)
 {
 	asm volatile ( "outb %0, %1"
@@ -50,9 +67,24 @@ static inline void outb(uint16_t port, uint8_t val)
 			: "a"(val), "Nd"(port) );
 }
 
+
 /*
- * =a : constraint means that al/ax/eax will be copied to ret as output 
- * Nd : N = 8 bytes, Register d (dx)
+ *
+ * inb: take I/O port address in DX (here it's port and 0x60 in get_scancode())
+ * 	and return the I/O port value in AL (here ret and c= in get_scancode())
+ * 
+ * =a: constraint mean use the A register (in this case AL) and copy it to
+ *     ret as output
+ * 
+ * Nd: constraint mean:
+ * 	N: force 8-bit integer constant
+ * 	d: use the D register (in this case DX)
+ *
+ * x86 IN (Input from Port) :
+ * Copies the value from the I/O port
+ * specified with the second operand (source operand)
+ * to the destination operand (first operand).
+ *
  */
 
 static inline uint8_t inb(uint16_t port)
@@ -64,7 +96,6 @@ static inline uint8_t inb(uint16_t port)
 	return ret;
 }
 
-// https://stackoverflow.com/questions/46608895/
 static char get_scancode()
 {
 	char c = 0;
