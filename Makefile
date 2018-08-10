@@ -49,4 +49,4 @@ fclean: clean
 run: $(KERNEL_IMG)
 	qemu-system-i386 -cdrom $(KERNEL_IMG)
 
-re: clean all
+re: fclean all
