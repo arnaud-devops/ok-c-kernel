@@ -41,7 +41,7 @@ clean:
 	rm -rf $(CC_OBJ)
 	rm -rf $(ASM_OBJ)
 
-fclean:
+fclean: clean
 	rm -rf $(KERNEL_DIR)
 	rm -rf $(KERNEL_IMG)
 	rm -rf $(KERNEL)
