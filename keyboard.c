@@ -60,12 +60,12 @@ unsigned char kbdus[128] = {
  *
  */
 
-static inline void outb(uint16_t port, uint8_t val)
-{
-	asm volatile ( "outb %0, %1"
-			:
-			: "a"(val), "Nd"(port) );
-}
+// static inline void outb(uint16_t port, uint8_t val)
+// {
+// 	asm volatile ( "outb %0, %1"
+// 			:
+// 			: "a"(val), "Nd"(port) );
+// }
 
 
 /*
@@ -99,9 +99,8 @@ static inline uint8_t inb(uint16_t port)
 static unsigned char get_scancode()
 {
 	unsigned char c = 0;
-	outb(0x60, 0x0);
 	do {
-		if(inb(0x60) != c){
+		if(inb(0x64) & 0x01){
 			c = inb(0x60);
 			return c;
 		}
