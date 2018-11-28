@@ -17,7 +17,7 @@ start:
 	call kmain				; call our main function
 	hlt					; halt the CPU
 
-section .bss
+section .bss align=16
 	resb 8192				; 8KB for stack
 
 stack_space:
