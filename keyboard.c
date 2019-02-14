@@ -5,10 +5,10 @@ unsigned char kbdus[128] = {
 	0, // esc
 	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
 	'-', '=',
-	0, // backspace
+	253, // backspace
 	0, // tab
 	'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
-	0, // enter
+	255, // enter
 	0, // left ctrl
 	'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
 	0, // left shift
@@ -23,15 +23,15 @@ unsigned char kbdus[128] = {
 	0, // numlock
 	0, // scroll lock
 	0, // home
-	0, // up
+    150, // up
 	0, // page up
 	'-',
-	0, // left
+	151, // left
 	0, // keypad 5
-	0, // right
+	152, // right
 	'+',
 	0, // end
-	0, // down
+	153, // down
 	0, // page down
 	0, // insert
 	0, // del
@@ -60,12 +60,12 @@ unsigned char kbdus[128] = {
  *
  */
 
-// static inline void outb(uint16_t port, uint8_t val)
-// {
-// 	asm volatile ( "outb %0, %1"
-// 			:
-// 			: "a"(val), "Nd"(port) );
-// }
+ static inline void outb(uint16_t port, uint8_t val)
+ {
+ 	asm volatile ( "outb %0, %1"
+ 			:
+ 			: "a"(val), "Nd"(port) );
+ }
 
 
 /*

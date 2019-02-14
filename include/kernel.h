@@ -9,6 +9,7 @@
  */
 
 #define VID_MEMORY		0x0b8000
+#define VGA_WIDTH       80
 
 /*
  * Max Columns and Lines
@@ -39,5 +40,6 @@
 #define WHITE			0x0f
 
 char getchar();
+
 
 #endif
