@@ -3,7 +3,9 @@
  */
 
 #include "include/kernel.h"
+#include "libk.h"
 
+_Bool caps = 0;
 
 /*
  *
@@ -175,11 +177,11 @@ static inline void arrow_left(char **video)
         *video -= 2;
 }
 
-static void kputchar(char c) {
+void kputchar(int c) {
 	static char *video = (char*)VID_MEMORY;
 	static char color = WHITE;
 
-	switch ((unsigned char)c)
+	switch (c)
 	{
         case 150:
             arrow_up(&video);
@@ -229,8 +231,19 @@ static void kputchar(char c) {
 	    case 255:
             enter(&video);
             break;
+        case 155:
+        case 156:
+        case 157:
+	        caps = !caps;
+            break;
+	    case -156:
+	    case -157:
+	        caps = !caps;
+	        break;
 		default:
-			*video++ = c;
+		    if (c < 0)
+		        break;
+			*video++ = (char)c;
 			*video++ = color;
 			break;
 	}
@@ -240,10 +253,9 @@ static void kputchar(char c) {
 }
 
 static void basic_kbd() {
-	char c;
-
+	int c;
 	while (1) {
-		c = getchar();
+		c = getchar(caps);
 		if (c != 0)
 			kputchar(c);
 	}
@@ -255,12 +267,14 @@ void kmain(void)
 	char *vidptr = (char*)VID_MEMORY; /* Videos memory begin here */
 	char c;
 
+
+//	init_gdt();
 	ft_clear_screen();
 	enable_cursor(0, 15);
 	ft_write_on_screen(str, vidptr);
 	while (1) {
-		c = getchar();
-		if (c != 0) {
+		c = getchar(0);
+        if (c != 0) {
 			ft_clear_screen();
 			basic_kbd();
 		}

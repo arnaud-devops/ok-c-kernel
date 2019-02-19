@@ -1,52 +1,95 @@
 #include "include/kernel.h"
 
-unsigned char kbdus[128] = {
-	0, // error
-	0, // esc
-	'1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-	'-', '=',
-	253, // backspace
-	0, // tab
-	'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
-	255, // enter
-	0, // left ctrl
-	'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
-	0, // left shift
-	'\\', 'z', 'x', 'c', 'v', 'b', 'n',
-	'm', ',', '.', '/',
-	0, // right shift
-	'*',
-	0, // left alt
-	' ', // space
-	0, // caps-lock
-	200, 201, 202, 203, 204, 205, 206, 207, 208, 209, // f1->f10
-	0, // numlock
-	0, // scroll lock
-	0, // home
-    150, // up
-	0, // page up
-	'-',
-	151, // left
-	0, // keypad 5
-	152, // right
-	'+',
-	0, // end
-	153, // down
-	0, // page down
-	0, // insert
-	0, // del
-	0, // Alt-SysRq ?
-	0, // Fn?
-	0, // Cmd/Super?
-	0, // f11
-	0, // f12
-	0, // undefined
-};
+unsigned char kbdus[2][128] = {{
+            0, // error
+            0, // esc
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+            '-', '=',
+            0, // tab
+            253, // backspace
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
+            255, // enter
+            0, // left ctrl
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`',
+            156, // left shift
+            '\\', 'z', 'x', 'c', 'v', 'b', 'n',
+            'm', ',', '.', '/',
+            157, // right SHIft
+            '*',
+            0, // left alt
+            ' ', // space
+            155, // caps-lock
+            200, 201, 202, 203, 204, 205, 206, 207, 208, 209, // f1->f10
+            0, // numlock
+            0, // scroll lock
+            0, // home
+            150, // up
+            0, // page up
+            '-',
+            151, // left
+            0, // keypad 5
+            152, // right
+            '+',
+            0, // end
+            153, // down
+            0, // page down
+            0, // insert
+            0, // del
+            0, // Alt-SysRq ?
+            0, // Fn?
+            0, // Cmd/Super?
+            0, // f11
+            0, // f12
+            0, // undefined
+            },
+
+			{
+			0, // error
+            0, // esc
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')',
+            '_', '+',
+            253, // backspace
+            0, // tab
+            'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',
+            255, // enter
+            0, // left ctrl
+            'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '\"', '~',
+            156, // left shift
+            '|', 'Z', 'X', 'C', 'V', 'B', 'N',
+            'M', '<', '>', '?',
+            157, // right shift
+            '*',
+            0, // left alt
+            ' ', // space
+            155, // caps-lock
+            200, 201, 202, 203, 204, 205, 206, 207, 208, 209, // f1->f10
+            0, // numlock
+            0, // scroll lock
+            0, // home
+            150, // up
+            0, // page up
+            '-',
+            151, // left
+            0, // keypad 5
+            152, // right
+            '+',
+            0, // end
+            153, // down
+            0, // page down
+            0, // insert
+            0, // del
+            0, // Alt-SysRq ?
+            0, // Fn?
+            0, // Cmd/Super?
+            0, // f11
+            0, // f12
+            0, // undefined
+} };
 
 
 /*
  *
- * outb: output byte in AL (here it's val and 0x0 in get_scancode())
+ * outb: output byte in AL (here it's val and 0x0 in _scancode())
  *       to I/O port address in DX (here it's port and 0x60 in get_scancode())
  * 
  * a: constraint mean use the A register (in this case AL)
@@ -107,7 +150,11 @@ static unsigned char get_scancode()
 	} while(1);
 }
 
-char getchar() {
-	return kbdus[get_scancode()];
+
+int getchar(_Bool caps) {
+	int c = get_scancode();
+	if (c >= 128)
+        return (-kbdus[caps][c - 128]);
+	return kbdus[caps][c];
 }
 
