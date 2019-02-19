@@ -5,8 +5,8 @@ unsigned char kbdus[2][128] = {{
             0, // esc
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
             '-', '=',
-            0, // tab
             253, // backspace
+            0, // tab
             'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
             255, // enter
             0, // left ctrl
@@ -87,6 +87,30 @@ unsigned char kbdus[2][128] = {{
 } };
 
 
+void	ft_putnbr(int n) // TODO add to lib VGA
+{
+    unsigned int i;
+
+    i = n;
+    if (n < 0)
+    {
+        kputchar('-');
+        i = -n;
+    }
+    if (i < 10)
+    {
+        if (i == 0)
+            kputchar('0');
+        kputchar(kbdus[0][i + 1]);
+    }
+    else
+    {
+        ft_putnbr(i / 10);
+        ft_putnbr(i % 10);
+    }
+}
+
+
 /*
  *
  * outb: output byte in AL (here it's val and 0x0 in _scancode())
@@ -150,11 +174,10 @@ static unsigned char get_scancode()
 	} while(1);
 }
 
-
 int getchar(_Bool caps) {
 	int c = get_scancode();
-	if (c >= 128)
-        return (-kbdus[caps][c - 128]);
+	if (c > 128)
+		return (-kbdus[caps][c - 128]);
 	return kbdus[caps][c];
 }
 

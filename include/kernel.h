@@ -40,6 +40,7 @@
 #define WHITE			0x0f
 
 int getchar(_Bool caps);
+void kputchar(int c);
 //void init_gdt(void);
 
 //

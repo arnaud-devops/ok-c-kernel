@@ -177,7 +177,7 @@ static inline void arrow_left(char **video)
         *video -= 2;
 }
 
-void kputchar(int c) {
+void kputchar(int c) { //  << TODO static
 	static char *video = (char*)VID_MEMORY;
 	static char color = WHITE;
 
@@ -234,14 +234,12 @@ void kputchar(int c) {
         case 155:
         case 156:
         case 157:
-	        caps = !caps;
-            break;
-	    case -156:
-	    case -157:
-	        caps = !caps;
-	        break;
+		case -156:
+		case -157:
+			caps = !caps;
+			break;
 		default:
-		    if (c < 0)
+		    if (c < 0) /* TODO clean this crap!!!!! */
 		        break;
 			*video++ = (char)c;
 			*video++ = color;
