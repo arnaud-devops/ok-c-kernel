@@ -1,5 +1,5 @@
 /*
- * link.ld
+ * linker.ld
  */
 
 /*
@@ -12,7 +12,8 @@ ENTRY(start)				/* Specify the entry point of our exexutable */
 SECTIONS					/* Layout of our executable */
  {
 	. = 1M;					/* Kernel's code start at 1M */
+	.boot : { *(.multiboot_header) }
 	.text : { *(.text) }	/* The asterisk (*) is a wildcard character that matches any file name */
 	.data : { *(.data) }
-	.bss  : { *(.bss)  }
+	.bss  : { *(.bss) }
  }
