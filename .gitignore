@@ -19,5 +19,22 @@
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
-# CMake
+## CMake
+
 cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+## Oxynux
+
+# Grub2 ISO
+oxynux.iso
+oxynux
+
+# Binary and GRUB2 directory
+oxynux_kernel/
+
+# COM1 output
+serial.log
