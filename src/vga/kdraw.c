@@ -1,11 +1,10 @@
 //
-// Created by oxynux on 2/20/19.
+// Created by oxynux on 3/13/19.
 //
 
 #include "kernel/vga.h"
 
-
-void kputchar(int c)
+void kdraw(int c)
 {
     static char color = WHITE;
 
@@ -54,10 +53,8 @@ void kputchar(int c)
             color = WHITE;
             break;
         case 253:
-            del();
             break;
         case '\n':
-            enter();
             break;
         case 155:
         case 156:
@@ -72,8 +69,5 @@ void kputchar(int c)
             *vidptr++ = (char)c;
             *vidptr++ = color;
             break;
-    }
-    if (vidptr == (char*)(VID_MEMORY + MAX_COLUMNS * MAX_LINES * 2)) {
-        scroll();
     }
 }

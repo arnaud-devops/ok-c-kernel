@@ -9,9 +9,9 @@
 
 #define COM1 0x3F8
 
-void    init_serial(void);
-int     is_transmit_empty(void);
-void    write_serial(char a);
-void    print_to_serial(char *s);
+void    com1_init(void);
+int     com1_transmit_empty(void);
+void    com1_write_serial(char a);
+void    com1_print_to_serial(char *s);
 
 #endif //OXYNUX_COM_H

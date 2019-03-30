@@ -8,7 +8,11 @@
 #include "kernel.h"
 #include "kernel/system.h"
 #include "kernel/com.h"
+#include "kernel/keyboard.h"
+#include "kernel/memdump.h"
 
+void    prompt(void);
+void    kshell(void);
 int     cmd_parse(char *buf);
 
 #endif //OXYNUX_KSHELL_H

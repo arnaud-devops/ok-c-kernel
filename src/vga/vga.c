@@ -4,77 +4,59 @@
 
 #include "kernel/vga.h"
 
-void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+int column(void)
 {
-    outb(0x3D4, 0x0A);
-    outb(0x3D5, (inb(0x3D5) & 0xC0) | cursor_start);
-
-    outb(0x3D4, 0x0B);
-    outb(0x3D5, (inb(0x3D5) & 0xE0) | cursor_end);
+    return (int)(((vidptr - (char *)VID_MEMORY) / 2) % 80);
 }
 
-void update_cursor(int x, int y)
+int line(void)
 {
-    uint16_t pos = y * VGA_WIDTH + x;
-
-    outb(0x3D4, 0x0F);
-    outb(0x3D5, (uint8_t) (pos & 0xFF));
-    outb(0x3D4, 0x0E);
-    outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+    return (int)(((vidptr - (char *)VID_MEMORY) / 2) / 80);
 }
 
-int column(char *video)
+void enter(void)
 {
-    return (((video - (char *)VID_MEMORY) / 2) % 80);
+    vidptr = (char *)VID_MEMORY + 80 * 2 * (line() + 1);
 }
 
-int line(char *video)
+void del(void)
 {
-    return (((video - (char *)VID_MEMORY) / 2) / 80);
+    if (vidptr - 2 < (char *)VID_MEMORY)
+        vidptr = vidptr - 2 + (MAX_COLUMNS * MAX_LINES * 2);
+    vidptr--;
+    *vidptr = WHITE;
+    vidptr--;
+    *vidptr = ' ';
 }
 
-void enter(char **video)
+void arrow_up(void)
 {
-    *video = (char *)VID_MEMORY + 80 * 2 * (line(*video) + 1);
-}
-
-void del(char **video)
-{
-    if ((int)*video - 2 < (int)VID_MEMORY)
-        *video = *video - 2 + (80 * 25 * 2);
+    if ((int)vidptr - MAX_COLUMNS * 2 < (int)VID_MEMORY)
+        vidptr = vidptr - MAX_COLUMNS * 2 + (80 * 25 * 2);
     else
-        *video -= 2;
-    **video = ' ';
+        vidptr -= MAX_COLUMNS * 2;
 }
 
-void arrow_up(char **video)
+void arrow_down(void)
 {
-    if ((int)*video - MAX_COLUMNS * 2 < (int)VID_MEMORY)
-        *video = *video - MAX_COLUMNS * 2 + (80 * 25 * 2);
+    if ((int)vidptr + MAX_COLUMNS * 2 > (int)VID_MEMORY + (80 * 25 * 2))
+        vidptr = vidptr + MAX_COLUMNS * 2 - (80 * 25 * 2);
     else
-        *video -= MAX_COLUMNS * 2;
+        vidptr += MAX_COLUMNS * 2;
 }
 
-void arrow_down(char **video)
+void arrow_right(void)
 {
-    if ((int)*video + MAX_COLUMNS * 2 > (int)VID_MEMORY + (80 * 25 * 2))
-        *video = *video + MAX_COLUMNS * 2 - (80 * 25 * 2);
+    if ((int)vidptr + 2 > (int)VID_MEMORY + (80 * 25 * 2))
+        vidptr = vidptr + 2 - (80 * 25 * 2);
     else
-        *video += MAX_COLUMNS * 2;
+        vidptr += 2;
 }
 
-void arrow_right(char **video)
+void arrow_left(void)
 {
-    if ((int)*video + 2 > (int)VID_MEMORY + (80 * 25 * 2))
-        *video = *video + 2 - (80 * 25 * 2);
+    if ((int)vidptr - 2 < (int)VID_MEMORY)
+        vidptr = vidptr - 2 + (80 * 25 * 2);
     else
-        *video += 2;
-}
-
-void arrow_left(char **video)
-{
-    if ((int)*video - 2 < (int)VID_MEMORY)
-        *video = *video - 2 + (80 * 25 * 2);
-    else
-        *video -= 2;
+        vidptr -= 2;
 }

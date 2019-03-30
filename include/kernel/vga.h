@@ -7,6 +7,7 @@
 
 #include "kernel.h"
 #include "kernel/keyboard.h"
+#include "kernel/vga.h"
 
 #define VID_MEMORY		0x0b8000
 #define VGA_WIDTH       80
@@ -34,18 +35,19 @@
 void        kputchar(int c);
 void        kputstr(char *s);
 void        kputnbr(int n);
-void        write_on_screen(const char *str, char *vidptr);
 void        clear_screen(void);
-void        enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
-void        update_cursor(int x, int y);
-int         column(char *video);
-int         line(char *video);
-void        enter(char **video);
-void        del(char **video);
-void        arrow_up(char **video);
-void        arrow_down(char **video);
-void        arrow_right(char **video);
-void        arrow_left(char **video);
-void        reset_cursor(void);
+void        scroll(void);
+int         column(void);
+int         line(void);
+void        enter(void);
+void        del(void);
+void        arrow_up(void);
+void        arrow_down(void);
+void        arrow_right(void);
+void        arrow_left(void);
+void        cursor_reset(void);
+void        cursor_init(uint8_t cursor_start, uint8_t cursor_end);
+void        cursor_update(int x, int y);
+void        kdraw(int c);
 
 #endif //OXYNUX_VGA_H

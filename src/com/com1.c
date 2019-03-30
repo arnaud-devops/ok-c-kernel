@@ -4,7 +4,7 @@
 
 #include "kernel/com.h"
 
-void init_serial() {
+void com1_init() {
     outb(COM1 + 1, 0x00);    // Disable all interrupts
     outb(COM1 + 3, 0x80);    // Enable DLAB (set baud rate divisor)
     outb(COM1 + 0, 0x03);    // Set divisor to 3 (lo byte) 38400 baud
@@ -14,20 +14,20 @@ void init_serial() {
     outb(COM1 + 4, 0x0B);    // IRQs enabled, RTS/DSR set
 }
 
-int is_transmit_empty() {
+int com1_transmit_empty() {
     return inb(COM1 + 5) & 0x20;
 }
 
-void write_serial(char a) {
-    while (is_transmit_empty() == 0);
+void com1_write_serial(char a) {
+    while (com1_transmit_empty() == 0);
 
     outb(COM1,a);
 }
 
-void print_to_serial(char *s) {
+void com1_print_to_serial(char *s) {
     int i = 0;
     while (s[i] != 0) {
-        write_serial(s[i]);
+        com1_write_serial(s[i]);
         i++;
     }
 }

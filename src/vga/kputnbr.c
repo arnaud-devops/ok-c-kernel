@@ -16,9 +16,7 @@ void	kputnbr(int n)
     }
     if (i < 10)
     {
-        if (i == 0)
-            kputchar('0');
-        kputchar(kbdus[0][i + 1]);
+        kputchar(i + 48);
     }
     else
     {

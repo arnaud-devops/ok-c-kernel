@@ -7,20 +7,23 @@
 
 #include "freestanding.h"
 
-uint8_t inb(uint16_t port);
-void    outb(uint16_t port, uint8_t val);
-void    *memcpy(void *s1, const void *s2, size_t n);
-void    *memmove(void *s1, const void *s2, size_t n);
-void    *memset(void *b, int c, size_t len);
-size_t  strlen(const char *str);
-int		isalnum(int c);
-int		isalpha(int c);
-int		isascii(int c);
-int		isdigit(int c);
-int		islower(int c);
-int		isprint(int c);
-int		isspace(int c);
-int		isupper(int c);
-int		strncmp(const char *s1, const char *s2, size_t n);
+uint8_t     inb(uint16_t port);
+void        outb(uint16_t port, uint8_t val);
+uint32_t    getsp(void);
+void        *memcpy(void *s1, const void *s2, size_t n);
+void        *memmove(void *s1, const void *s2, size_t n);
+void        *memset(void *b, int c, size_t len);
+size_t      strlen(const char *str);
+int		    isalnum(int c);
+int		    isalpha(int c);
+int		    isascii(int c);
+int		    isdigit(int c);
+int		    islower(int c);
+int		    isprint(int c);
+int		    isspace(int c);
+int		    isupper(int c);
+int		    strncmp(const char *s1, const char *s2, size_t n);
+char	    *strcpy(char *dst, const char *src);
+
 
 #endif //OXYNUX_LIBOXYK_H

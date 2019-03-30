@@ -4,27 +4,35 @@
 
 #include "kernel.h"
 
+char *vidptr;
+
 void kmain(void)
 {
-    const char *str = "Hello World!"; /* Message which will be displayed on Kernel screen */
-    char *vidptr = (char*)VID_MEMORY; /* Videos memory begin here */
+    vidptr = (char*)VID_MEMORY;
+    gdt_init();
+    com1_init();
+    cursor_init(14, 15);
+    khello();
+    kenv();
+}
+
+void khello(void)
+{
+    kputstr("Hello World from VGA!");
+    com1_print_to_serial("Hello World from COM1!\n");
+}
+
+void kenv(void)
+{
     char c;
 
-    init_serial();
-    print_to_serial("BONJOUR!");
-
-    // TODO implement init_gdt()
-
-    clear_screen();
-    enable_cursor(0, 15);
     while (1) {
-        write_on_screen(str, vidptr);
-//      kputstr((char *) str);
-        reset_cursor();
         c = getchar(0);
         if (c != 0) {
+            cursor_reset();
             clear_screen();
-            basic_kbd();
+            vidptr = (char*)VID_MEMORY;
+            kshell();
         }
     }
 }

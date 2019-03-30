@@ -14,7 +14,7 @@ enable_language(ASM_NASM)
 
 set(CMAKE_C_STANDARD 11)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32 -O0 -ffreestanding")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32 -O2 -ffreestanding")
 
 set(CMAKE_NASM_LINK_EXECUTABLE "ld -m elf_i386 -T ${LD_PATH} -o <TARGET> <OBJECTS>")
 
@@ -27,6 +27,8 @@ set(SOURCES_FILES
         include/kernel/kshell.h
         include/kernel/system.h
         include/kernel/com.h
+        include/kernel/gdt.h
+        include/kernel/memdump.h 
         src/liboxyk/strncmp.c
         src/liboxyk/memcpy.c
         src/liboxyk/isdigit.c
@@ -46,7 +48,6 @@ set(SOURCES_FILES
         src/vga/kputstr.c
         src/vga/clear_screen.c
         src/vga/kputnbr.c
-        src/vga/write_on_screen.c
         src/vga/vga.c
         src/keyboard/keyboard.c
         src/kmain.c
@@ -54,7 +55,15 @@ set(SOURCES_FILES
         src/system/reboot.c
         src/kshell/cmd_parse.c
         src/com/com1.c
-        src/vga/reset_cursor.c include/freestanding.h)
+        src/vga/cursor.c
+        src/gdt/gdt.c
+        src/gdt/gdt_flush.asm
+        src/vga/scrolling.c
+        src/kshell/prompt.c
+        src/vga/kdraw.c
+        src/memdump/memdump.c
+        src/liboxyk/strcpy.c
+        src/liboxyk/getsp.c)
 
 include_directories(include)
 

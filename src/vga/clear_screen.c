@@ -6,7 +6,7 @@
 
 void clear_screen(void)
 {
-    char *video = (char*)VID_MEMORY;
+    vidptr = (char*)VID_MEMORY;
     unsigned int i = 0;
 
     /*
@@ -15,8 +15,9 @@ void clear_screen(void)
      */
     while (i < MAX_COLUMNS * MAX_LINES * 2)
     {
-        *video++ = ' '; /* Blank character on all screen */
-        *video++ = LIGHT_GREY; /* Each character on two bytes - character + colors */
+        *vidptr++ = ' '; /* Blank character on all screen */
+        *vidptr++ = LIGHT_GREY; /* Each character on two bytes - character + colors */
         i = i + 2;
     }
+    vidptr = (char *)VID_MEMORY;
 }
