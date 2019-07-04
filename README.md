@@ -1,4 +1,9 @@
-# Oxynux kernel
+# ok-c kernel
+
+A basic x86 kernel written in C with a multiboot2 header.
+Create a bootable iso with GRUB2 as bootloader.
+
+Offical repository here : https://gitlab.com/oxynux/ok-c-kernel/ (the GitHub one is a mirror).
 
 ## Requirements
 
@@ -7,8 +12,7 @@ Recent GNU/Linux distribution should work with:
 cmake >= 3.10
 qemu
 qemu-system-i386
-qemu-kvm (if you use KVM)
-gcc (gcc-multilib-i686-linux-gnu)
+gcc
 build-essential
 nasm
 xorriso
@@ -21,8 +25,6 @@ grub-common
 cmake .
 make
 ```
-
-Alternative: use CLion
 
 ## Launch
 
